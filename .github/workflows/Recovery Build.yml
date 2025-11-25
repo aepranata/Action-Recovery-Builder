@@ -174,3 +174,9 @@ jobs:
           Target: ${{ github.event.inputs.BUILD_TARGET }}.img
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload to Telegram
+      run: |
+        curl -F document=@workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img \
+        -F chat_id=${{ secrets.TG_GROUP_ID }} \
+        https://api.telegram.org/bot${{ secrets.TG_TOKEN }}/sendDocument
